@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI, UploadFile, File, Response
 from rembg import remove
 from PIL import Image
@@ -17,3 +19,10 @@ async def remove_bg(file: UploadFile = File(...)):
     buf = io.BytesIO()
     img_no_bg.save(buf, format="PNG")
     return Response(content=buf.getvalue(), media_type="image/png")
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    port = int(os.environ.get("PORT", 8080))
+    uvicorn.run(app, host="0.0.0.0", port=port)
